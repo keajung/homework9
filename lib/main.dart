@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'test_page.dart';
 import 'package:flutter/material.dart';
 
 import 'game.dart';
@@ -16,9 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        primarySwatch: Colors.amber,
       ),
       home: HomePage(),
     );
@@ -26,10 +25,8 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  late Game _game;
 
   HomePage({Key? key}) : super(key: key) {
-    _game = Game(maxRandom: 100);
   }
 
   @override
@@ -37,10 +34,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _input = '';
-  String _status = 'ทายเลข 1 ถึง 100';
+  var  _num = 0;
+  var _null = 6;
 
-  int? answerNum;
+  var _textPin = '';
 
   void _showOkDialog(BuildContext context, String title, String content) {
     showDialog(
@@ -63,188 +60,137 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  bool checkPin(var pin){
+    if(pin=='123456'){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var showSeven = true;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('GUESS THE NUMBER'),
-      ),
+
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
         child: Container(
-          decoration: BoxDecoration(
-            color: Colors.amber.shade200,
-            borderRadius: BorderRadius.circular(16.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black45,
-                offset: Offset(5.0, 5.0),
-                spreadRadius: 2.0,
-                blurRadius: 5.0,
-              )
-            ],
-          ),
+
           alignment: Alignment.center,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              /*Row(
-                children: [
-                  Container(width: 50.0, height: 50.0, color: Colors.blue),
-                  Expanded(
-                    child: Container(
-                      width: 30.0,
-                      height: 50.0,
-                      //color: Colors.pink,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Text('FLUTTER', textAlign: TextAlign.end,),
-                      ),
-                      alignment: Alignment.centerRight,
-                    ),
-                  ),
-                  //SizedBox(width: 10.0),
-                ],
-              ),*/
-              /*Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(child: Container(color: Colors.green, width: 100.0, height: 50.0)),
-                  Container(color: Colors.red, width: 50.0, height: 50.0),
-                ],
-              ),*/
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              Padding(
+                padding: const EdgeInsets.only(top: 100.0),
+                child: Icon(
+                  Icons.lock,
+                  size: 70.0,
+                  color: Colors.amber,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 70.0),
+                child: Column(
                   children: [
-                    Image.asset('assets/images/img.png', width: 90.0),
-                    SizedBox(width: 8.0),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('GUESS',
-                            style: TextStyle(
-                                fontSize: 36.0, color: Colors.teal.shade600)),
-                        Text(
-                          'THE NUMBER',
+                    Text('LOGIN' ,
+                        style: TextStyle(
+                            fontSize: 30.0, color: Colors.amber)),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: Text('Enter PIN to login' ,
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.teal.shade600,
-                            //fontWeight: FontWeight.bold,
+                              fontSize: 15.0, color: Colors.amber)),
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+
+                        // Collection for
+                        for (var i = 0; i < _num; i++)
+                          Container(
+                            width: 20.0,
+                            height: 20.0,
+                            margin: EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                              color: Colors.amber.shade500,
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                        ),
+                        for (var i = 0; i < _null ; i++)
+                          Container(
+                            width: 20.0,
+                            height: 20.0,
+                            margin: EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                              color: Colors.amber.shade100,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+
                       ],
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 0.0, top: 0.0),
-                child: Text('$_input', style: TextStyle(fontSize: 35.0,color: Colors.black),),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 2.0,top: 0.0 ),
-                child: Text('$_status', style: TextStyle(fontSize: 20.0,color: Colors.teal),),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildButton(1),
-                  buildButton(2),
-                  buildButton(3),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildButton(4),
-                  buildButton(5),
-                  buildButton(6),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildButton(7),
-                  buildButton(8),
-                  buildButton(9),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  /*Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: (){
-                        print('X');
-                      },
-                      borderRadius: BorderRadius.circular(30.0),
-                      child: Container(
-                        width: 60,
-                        height: 60,
-                        child: Icon(Icons.close, color:  Colors.teal.shade600,),
-
-                      ),
-                    ),
-                  ),*/
-                  buildButton(-2),
-                  buildButton(0),
-                  buildButton(-1),
-                  /*Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: (){
-                        print('BackSpace');
-                      },
-                      borderRadius: BorderRadius.circular(30.0),
-                      child: Container(
-                        width: 60,
-                        height: 60,
-                        child: buildButton(-1),
-
-                      ),
-                    ),
-                  ),*/
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
-                  child: Text('GUESS'),
-                  onPressed: () {
-                    var input = _input;
-                    var guess = int.tryParse(input);
-
-                    if (guess == null) {
-                      _showOkDialog(context, 'ERROR',
-                          'กรุณากรอกตัวเลข');
-                      return;
-                    }
-                    var guessResult = widget._game.doGuess(guess);
-                    if (guessResult > 0) {
-                      setState(() {
-                        _status = '$guess : มากเกินไป ';
-                        _input = '';
-                      });
-
-                    } else if (guessResult < 0) {
-                      setState(() {
-                        _status = '$guess : น้อยเกินไป';
-                        _input = '';
-                      });
-                    } else {
-                      setState(() {
-                        _status = '$guess ถูกต้อง 🎉 (ทาย ${widget._game.guessCount} ครั้ง)';
-                        _input = '';
-                      });
-                    }
-                  },
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var i = 1; i <= 3; i++) buildButton(num: i),
+                  ],
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var i = 4; i <= 6; i++) buildButton(num: i),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var i = 7; i <=9 ; i++) buildButton(num: i),
+                  ],
+                ),
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 30,),
+                      child: Container(
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25, right: 25,),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              child: buildButton(num: 0),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Icon(
+                          Icons.backspace,
+                          size: 30.0,
+                          color: Colors.amber
+                      ),
+                    ),
+                  ]
               ),
             ],
           ),
@@ -253,32 +199,55 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildButton(int? num) {
+  Widget buildButton({int? num}) {
 
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0, right: 1.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: OutlinedButton(
           onPressed: () {
+           setState(() {
+             if(_num<=5) {
+               _null--;
+               _num++;
+               _textPin+='$num';
+               print('You pressed $num');
+             }
+             if(_num==6) {
+               if(checkPin(_textPin)==true) {
+                 Navigator.push(
+                   context,
+                   MaterialPageRoute(builder: (context) => TestPage()),
+                 );
+               }else{
+                 setState(() {
+                   _null = 6;
+                   _textPin = '';
+                   _num = 0;
+                 });
+                 showDialog(
+                   context: context,
+                   barrierDismissible: false,
+                   builder: (BuildContext context) {
+                     return AlertDialog(
+                       title: Text("Invalid Pin"),
+                       content: Text("Please try again"),
+                       actions: [
+                         TextButton(
+                           onPressed: () {
+                             Navigator.of(context).pop();
+                           },
+                           child: Text('OK'),
+                         ),
+                       ],
+                     );
+                   },
+                 );
+               }
+             }
+           });
 
-            if(num==-1){
-              setState(() {
-                _input = _input.substring(0,_input.length-1);
-              });
-              print('You pressed Backspace button');
-            }else if(num==-2){
-              setState(() {
-                _input = '';
-              });
-              print('You pressed close button');
-            }else{
-              if(_input.length<3)
-              setState(() {
-                _input = _input+'$num';
-              });
-              print('You pressed $num');
-            }
           },
-          child: (num==-1)?Icon(Icons.backspace, color:  Colors.teal.shade600,) : (num==-2) ? Icon(Icons.close, color:  Colors.teal.shade600,) : Text('$num')),
+          child: Text('$num')) ,
     );
   }
 }
